@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Churn Risk</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="page">
+    <header class="page-header">
+      <div>
+        <h1>Churn risk</h1>
+        <p class="meta" id="meta">Loading…</p>
+      </div>
+      <form class="lookup" id="lookup-form" autocomplete="off">
+        <label for="lookup-input">Customer ID</label>
+        <input id="lookup-input" name="customer" placeholder="C-01412" required>
+        <button type="submit">Look up</button>
+      </form>
+    </header>
+
+    <section class="tiles" id="tiles" aria-label="Customers by risk band"></section>
+
+    <section class="card" id="customer-card" hidden aria-live="polite"></section>
+
+    <section class="card">
+      <div class="card-header">
+        <div>
+          <h2>Customers at risk</h2>
+          <p class="subtitle">Probability of cancelling in the next 3 months, highest first. Select a row for details.</p>
+        </div>
+        <div class="segmented" role="tablist" aria-label="Risk band" id="band-tabs">
+          <button role="tab" data-band="high" aria-selected="true">High</button>
+          <button role="tab" data-band="medium" aria-selected="false">Medium</button>
+          <button role="tab" data-band="low" aria-selected="false">Low</button>
+        </div>
+      </div>
+      <div class="table-wrap scroll" tabindex="0" aria-label="Customers at risk, scrollable">
+        <table class="data-table" id="at-risk-table">
+          <thead><tr><th>Customer</th><th>Churn probability</th><th>Main risk factors</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card" id="performance-card">
+      <div class="card-header">
+        <div>
+          <h2>Model performance</h2>
+          <p class="subtitle">High-risk band, per month, once the real outcome is known: precision (share of flagged customers who churned) and recall (share of churners who were flagged).</p>
+        </div>
+      </div>
+      <div class="legend" id="perf-legend"></div>
+      <div class="chart" id="perf-chart"></div>
+      <p class="note" id="perf-note"></p>
+      <details class="table-view">
+        <summary>Table view</summary>
+        <div class="table-wrap">
+          <table class="data-table numeric" id="perf-table">
+            <thead><tr>
+              <th>Month</th><th>Model</th><th>Customers</th><th>Churned</th>
+              <th>High-band precision</th><th>High-band recall</th><th>ROC AUC</th><th>PR AUC</th>
+            </tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </details>
+    </section>
+  </main>
+  <div class="tooltip" id="tooltip" role="status" hidden></div>
+  <script src="app.js"></script>
+</body>
+</html>
